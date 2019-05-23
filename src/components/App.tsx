@@ -14,10 +14,9 @@ class App extends React.Component<AppProps> {
     const { store } = this.props;
     if (store) {
       store.fetchData().then(
-        () => this.setState({ users: store.allUsers })
-      );
-    }
+        () => console.log('Updated'));
   }
+}
   
   render() {
     return (
