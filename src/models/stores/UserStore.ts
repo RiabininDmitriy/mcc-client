@@ -1,32 +1,33 @@
-
-import { types, Instance, cast, flow } from "mobx-state-tree";
-import { SHOW_ALL } from "../../constants/UsersFilters";
-import {Container} from 'typedi';
-import User from "../entities/User";
-import UsersService from "../../services/UsersService";
-
-const filterType = types.union(...[SHOW_ALL].map(types.literal))
-const USER_FILTERS = {
-    [SHOW_ALL]: () => true,
-}
-
+import { types, Instance } from "mobx-state-tree";
+import { Container } from "typedi";
+import User, { IUser } from "../entities/User";
+import UsersService from "../../api/services/UsersService";
+import uuid from "uuid/v1";
 const UserStore = types
-    .model({
-        users: types.array(User),
-        filter: types.optional(filterType, SHOW_ALL)
-    })
-    .views(self => ({
-        get allUsers() {
-            return Array.from(self.users.values())
-        }
-    }))
-    .actions(self => ({
-       fetchData: flow(
-           function* fetchUsers() {
-            const userService = Container.get(UsersService);
-            self.users = yield userService.getAll();
-           }
-       )
-    }))
-export type IUserStore= Instance<typeof UserStore>;
+  .model("TodoStore", {
+    users: types.array(User)
+  })
+  .views(self => ({
+    get allUsers() {
+      return Array.from(self.users.values());
+    },
+    getUser(username: string) {
+      return self.users.find(user => user.username === username);
+    }
+  }))
+  .actions(self => ({
+    setUsers(users: any) {
+      self.users = users;
+    }
+  }))
+  .actions(self => ({
+    fetchData: async () => {
+      const userService = Container.get(UsersService);
+      const users = await userService.getAll();
+      if (users)
+        self.setUsers(users.map((user: IUser) => ({ ...user, uid: uuid() })));
+    }
+  }));
+
+export type IUserStore = Instance<typeof UserStore>;
 export default UserStore;

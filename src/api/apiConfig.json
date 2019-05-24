@@ -1,0 +1,5 @@
+{
+  "prefix": "http://localhost:",
+  "serverPort": "3030",
+  "users":"/api/users"
+}
