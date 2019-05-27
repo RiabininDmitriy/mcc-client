@@ -2,6 +2,7 @@ import React from "react";
 import UserStore from "../../../models/stores/UserStore";
 import { RouteComponentProps, withRouter } from "react-router";
 import { observer } from "mobx-react";
+import NavBar from "../../shared/NavBar";
 
 interface IProps extends RouteComponentProps<any> {
   store: typeof UserStore.Type;
@@ -16,6 +17,7 @@ class CreateUser extends React.Component<IProps, IState> {
   render() {
     return (
       <div>
+        <NavBar />
         <form id="data" />
         <p>
           <input placeholder="username" name="user" form="data" />

@@ -8,6 +8,7 @@ import UsersList from "../pages/users/UsersList";
 
 import { Router, Route } from "react-router";
 import { createBrowserHistory } from "history";
+import Register from "../pages/register";
 
 const history = createBrowserHistory();
 
@@ -19,8 +20,16 @@ export default class Routes extends React.Component<IProps> {
     const { store } = this.props;
     return (
       <Router history={history}>
-        <NavBar />
-        <Route exact path="/" render={() => <h2>Home</h2>} />
+        <Route
+          exact
+          path="/"
+          render={() => (
+            <div>
+              <NavBar />
+              <h2>Home</h2>
+            </div>
+          )}
+        />
         <Route
           exact
           path="/users/"
@@ -31,11 +40,25 @@ export default class Routes extends React.Component<IProps> {
           path="/users/:username/"
           render={() => <UserCard store={store} />}
         />
-        <Route exact path="/projects/" render={() => <h2>Projects</h2>} />
+        <Route
+          exact
+          path="/projects/"
+          render={() => (
+            <div>
+              <NavBar />
+              <h2>Projects</h2>
+            </div>
+          )}
+        />
         <Route
           exact
           path="/create"
           render={() => <CreateUser store={store} />}
+        />
+        <Route
+          exact
+          path="/register"
+          render={() => <Register store={store} />}
         />
       </Router>
     );

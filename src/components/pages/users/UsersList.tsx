@@ -6,6 +6,7 @@ import { withRouter } from "react-router-dom";
 import UserStore from "../../../models/stores/UserStore";
 import Link from "../../shared/Link";
 import { IUser } from "../../../models/entities/User";
+import NavBar from "../../shared/NavBar";
 
 interface IProps extends RouteComponentProps<any> {
   store: typeof UserStore.Type;
@@ -29,11 +30,14 @@ class UsersList extends React.Component<IProps> {
     const { store } = this.props;
     const users = store.allUsers;
     return (
-      <ul>
-        <h2>Users List</h2>
-        {<h2>{Link("/create", "Create user")}</h2>}
-        {users.map(user => UserLink(user))}
-      </ul>
+      <div>
+        <NavBar />
+        <ul>
+          <h2>Users List</h2>
+          {<h2>{Link("/create", "Create user")}</h2>}
+          {users.map(user => UserLink(user))}
+        </ul>
+      </div>
     );
   }
 }

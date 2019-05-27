@@ -3,6 +3,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import UserStore from "../../../models/stores/UserStore";
 import { observer } from "mobx-react";
 import { IUser } from "../../../models/entities/User";
+import NavBar from "../../shared/NavBar";
 
 interface IProps extends RouteComponentProps<any> {
   store: typeof UserStore.Type;
@@ -28,7 +29,12 @@ class UserCard extends React.Component<IProps> {
   render() {
     const { match, store } = this.props;
     const user = store.getUser(match.params.username);
-    return <div>{user && UserInfo(user)}</div>;
+    return (
+      <div>
+        <NavBar />
+        {user && UserInfo(user)}
+      </div>
+    );
   }
 }
 export default withRouter<IProps>(observer(UserCard));

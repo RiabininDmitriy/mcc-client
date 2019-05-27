@@ -6,10 +6,11 @@ import * as serviceWorker from "./serviceWorker";
 import { Provider } from "mobx-react";
 import "./index.css";
 
+
 const store = UserStore.create();
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+      <App />
   </Provider>,
   document.getElementById("root")
 );
