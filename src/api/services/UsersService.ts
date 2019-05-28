@@ -20,8 +20,7 @@ export default class UsersService {
       const res = await axios.post(`${prefix}${serverPort}${users}`, user);
       return res.data;
     } catch (err) {
-      console.log(err);
-      return undefined;
+      throw err;
     }
   }
 }

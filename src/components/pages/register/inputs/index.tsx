@@ -6,126 +6,99 @@ import {
   Button
 } from "@bootstrap-styled/v4";
 
+import { IControl } from "../types";
+
+import classNames from "classnames";
+
+const inputClassName = (control: IControl) =>
+  classNames("overrides", {
+    success: control.touched && control.valid,
+    warning: control.touched && !control.valid
+  });
+
 const FullNameInput = (
-  faIcon: string,
-  iconColor: string,
+  firstNameControl: IControl,
+  lastNameControl: IControl,
   handleInput: Function
 ) => (
   <InputGroup className="form-group">
-    <InputGroupAddon style={{ color: iconColor, width: "30px" }}>
-      <i className={`fas fa-${faIcon}`} />
+    <InputGroupAddon
+      className="input-icon"
+      style={{
+        color: firstNameControl.icon ? firstNameControl.icon.color : null
+      }}
+    >
+      <i
+        className={`fas fa-${
+          firstNameControl.icon ? firstNameControl.icon.faIcon : null
+        }`}
+      />
     </InputGroupAddon>
     <Input
-      placeholder="First name"
+      className={inputClassName(firstNameControl)}
+      placeholder={firstNameControl.placeholder}
       onChange={(e: React.FormEvent<HTMLInputElement>) =>
-        handleInput("firstName")(e)
+        handleInput(firstNameControl.key)(e)
       }
     />
     <Input
-      placeholder="Last name"
+      className={inputClassName(lastNameControl)}
+      placeholder={lastNameControl.placeholder}
       onChange={(e: React.FormEvent<HTMLInputElement>) =>
-        handleInput("lastName")(e)
+        handleInput(lastNameControl.key)(e)
       }
-    />
-  </InputGroup>
-);
-const GroupInput = (
-  faIcon: string,
-  iconColor: string,
-  placeholder: string,
-  handleInput: Function,
-  value: string,
-  type?: string
-) => (
-  <InputGroup className="form-group">
-    <InputGroupAddon style={{ color: iconColor, width: "30px" }}>
-      <i className={`fas fa-${faIcon}`} />
-    </InputGroupAddon>
-    <Input
-      placeholder={placeholder}
-      type={type || "text"}
-      onChange={(e: React.FormEvent<HTMLInputElement>) => handleInput(e)}
-      value={value}
     />
   </InputGroup>
 );
 
-const GoogleSignUp = () => {
+const Warning = (text: string) => {
+  return (
+    <div className="warning-message overrides">
+      <small className="text-danger">{text}</small>
+    </div>
+  );
+};
+const GroupInput = (control: IControl, handleInput: Function) => (
+  <InputGroup className="form-group">
+    <InputGroupAddon
+      className="input-icon"
+      style={{ color: control.icon ? control.icon.color : null }}
+    >
+      <i className={`fas fa-${control.icon ? control.icon.faIcon : null}`} />
+    </InputGroupAddon>
+    <Input
+      className={inputClassName(control)}
+      placeholder={control.placeholder}
+      type={control.type}
+      onChange={(e: React.FormEvent<HTMLInputElement>) =>
+        handleInput(control.key)(e)
+      }
+    />
+    {control.touched && !control.valid && Warning(control.warningText)}
+  </InputGroup>
+);
+const ForeignSignUp = (
+  name: string,
+  faIcon: string,
+  color: string,
+  accentColor: string
+) => {
   return (
     <InputGroup className="form-group">
       <InputGroupAddon
-        style={{ width: "40px", backgroundColor: "#b23b2c", color: "white" }}
+        style={{ width: "40px", backgroundColor: accentColor, color: "white" }}
       >
-        <i className="fab fa-google" />
+        <i className={`fab fa-${faIcon}`} />
       </InputGroupAddon>
       <Button
-        className="rounded-right"
+        className="rounded-right foreign-button override "
         style={{
-          width: "100%",
-          backgroundColor: "#DD4B39",
-          border: "none",
-          borderTopLeftRadius: "0",
-          borderBottomLeftRadius: "0"
+          backgroundColor: color
         }}
       >
-        Sign up with Google
+        {`Sign up via ${name}`}
       </Button>
     </InputGroup>
   );
 };
-interface IState {
-  firstName: string;
-  lastName: string;
-  username: string;
-  email: string;
-  phone: string;
-  password: string;
-  repeatedPassword: string;
-  canContinue: boolean;
-}
-// const InputGroups = (state: IState, handleInput: Function) => {
-//   return (
-//     <div>
-//       {FullNameInput("passport", "blue", this.handleInput.bind(this))}
-//       {GroupInput(
-//         "envelope",
-//         "grey",
-//         "email",
-//         handleInput("email").bind(this),
-//         this.state.email
-//       )}
-//       {GroupInput(
-//         "phone",
-//         "#0C7489",
-//         "phone",
-//         this.handleInput("phone").bind(this),
-//         this.state.phone
-//       )}
-//       {GroupInput(
-//         "user",
-//         "orange",
-//         "username",
-//         this.handleInput("username").bind(this),
-//         this.state.username
-//       )}
-//       {GroupInput(
-//         "lock-open",
-//         "#073B4C",
-//         "Create password",
-//         this.handleInput("password").bind(this),
-//         this.state.password,
-//         "password"
-//       )}
-//       {GroupInput(
-//         "lock",
-//         "#073B4C",
-//         "Repeat password",
-//         this.handleInput("repeatedPassword").bind(this),
-//         this.state.repeatedPassword,
-//         "password"
-//       )}
-//     </div>
-//   );
-// };
-
-export { FullNameInput, GroupInput, GoogleSignUp };
+export { FullNameInput, GroupInput, ForeignSignUp };

@@ -1,0 +1,30 @@
+.input-icon {
+  width: 30px;
+}
+input.warning.overrides {
+  border-color: #d9534f;
+}
+input.success.overrides {
+  border-color: #5cb85c;
+}
+.warning-message {
+  position: absolute;
+  z-index: 100;
+  right: 10px;
+  align-self: center;
+}
+.foreign-button.override {
+  width: 100%;
+  border: none;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.submit {
+  justify-content: flex-end;
+  align-items: center;
+}
+.main-card.override {
+  background-color: #ebeef4;
+  border-color: #e6e8ec;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
